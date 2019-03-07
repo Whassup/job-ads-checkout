@@ -4,6 +4,7 @@ import ProductApi from '../api/ProductApi';
 import { CheckoutCartModel } from '../models/CheckoutCartModel';
 import ProductModel from '../models/ProductModel';
 import PriceRule from '../models/PricingRuleModel';
+import productsStub from '../api/productsStub';
 
 type Props = {
     priceRules: PriceRule[]
@@ -39,6 +40,23 @@ export class Checkout extends Component<Props> {
         return { cart };
     }
 
+    renderItemPrice(product: ProductModel, qty: number) {
+        const discountUnitPrice = this.state.cart.getProductFinalPrice(product);
+        const totalBase = this.state.cart.getItemBasePrice(product);
+        const total = this.state.cart.getItemFinalPrice(product);
+        const formatPriceQty = (unit: number, total: number) => `\$${unit} x ${qty} = \$${total}`;
+        const base = formatPriceQty(product.price, totalBase);
+        const discount = formatPriceQty(discountUnitPrice, total);
+        if (product.price === discountUnitPrice) {
+            return (<span>{base}</span>);
+        } else {
+            return (<span>
+                <del style={{ color: 'red' }}>{base}</del><br/>
+                <span>{discount}</span>
+            </span>);
+        }
+    }
+
     renderProducts() {
         return this.state.products.map(product => {
             const { qty } = this.state.cart.items.get(product.id) || { qty: 0 };
@@ -60,7 +78,9 @@ export class Checkout extends Component<Props> {
                             </button>
                         </div>
                     </td>
-                    <td data-label="Price">${product.price}</td>
+                    <td data-label="Price" style={{fontSize: '0.8em', width: '160px'}} className="right aligned">
+                        {this.renderItemPrice(product, qty)}
+                    </td>
                 </tr>
             );
         });
@@ -90,7 +110,7 @@ export class Checkout extends Component<Props> {
                 <tbody>
                     <tr className='checkout-base-total'>
                         <td className="right aligned">Base Total</td>
-                        <td data-label="Base Total" className="right aligned">$100</td>
+                        <td data-label="Base Total" className="right aligned">{this.state.cart.getBaseTotal()}</td>
                     </tr>
                 </tbody>
             </table>

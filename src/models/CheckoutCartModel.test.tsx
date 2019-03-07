@@ -1,6 +1,7 @@
 import { CheckoutCartModel } from './CheckoutCartModel';
 import ProductModel from './ProductModel';
 import { CheckoutItemModel } from './CheckoutItemModel';
+import priceDrop from '../util/priceDrop';
 
 const product1: ProductModel = {
     name: 'test',
@@ -211,6 +212,112 @@ describe('CheckoutCartModel', () => {
 
                     expect(cart.getOptions()).toEqual({ priceRules })
                 })
+            });
+
+            describe('getItemFinalPrice()', () => {
+                const qty = 3;
+
+                beforeEach(() => {
+                    cart = new CheckoutCartModel();
+                    // Add a defined qty of items of single product
+                    Array(qty)
+                        .fill(product1)
+                        .forEach((p) => cart.add(p));
+                })
+
+                it('should return price', () => {
+                    const result = cart.getItemFinalPrice(product1);
+                    expect(result).toBe(product1.price * qty);
+                });
+
+                describe('When priceRules are applied', () => {
+                    const newPrice = 20;
+                    beforeEach(() => {
+                        cart = new CheckoutCartModel({ 
+                            priceRules: [
+                                {
+                                    id: 3,
+                                    name: 'test 3',
+                                    priceFunction: priceDrop(300),
+                                    productIds: [1]
+                                },
+                                {
+                                    id: 1,
+                                    name: 'test',
+                                    priceFunction: priceDrop(newPrice),
+                                    productIds: [1]
+                                }
+                            ]
+                        });
+                        // Add a defined qty of items of single product
+                        Array(qty)
+                            .fill(product1)
+                            .forEach((p) => cart.add(p));
+                    })
+
+                    it('should apply price rules to calculated price', () => {
+                        const result = cart.getItemFinalPrice(product1);
+                        expect(result).toBe(newPrice * qty);
+                    });
+                });
+            });
+
+            describe('getProductFinalPrice()', () => {
+                beforeEach(() => {
+                    cart = new CheckoutCartModel();
+                    cart.add(product1);
+                    cart.add(product1);
+                })
+
+                it('should return price', () => {
+                    const result = cart.getProductFinalPrice(product1);
+                    expect(result).toBe(product1.price);
+                });
+
+                describe('When priceRules are applied', () => {
+                    const newPrice = 20;
+                    beforeEach(() => {
+                        cart = new CheckoutCartModel({ 
+                            priceRules: [
+                                {
+                                    id: 3,
+                                    name: 'test 3',
+                                    priceFunction: priceDrop(300),
+                                    productIds: [1]
+                                },
+                                {
+                                    id: 1,
+                                    name: 'test',
+                                    priceFunction: priceDrop(newPrice),
+                                    productIds: [1]
+                                }
+                            ]
+                        });
+                        cart.add(product1);
+                    })
+
+                    it('should apply price rules to calculated price', () => {
+                        const result = cart.getProductFinalPrice(product1);
+                        expect(result).toBe(newPrice);
+                    });
+                });
+            });
+
+            describe('getItemBasePrice()', () => {
+                const qty = 3;
+
+                beforeEach(() => {
+                    cart = new CheckoutCartModel();
+                    // Add a defined qty of items of single product
+                    Array(qty)
+                        .fill(product1)
+                        .forEach((p) => cart.add(p));
+                })
+
+                it('should return price', () => {
+                    const result = cart.getItemBasePrice(product1);
+                    expect(result).toBe(product1.price * qty);
+                });
             });
         });
         
