@@ -31,7 +31,7 @@ describe('CustomerSelect', () => {
     it('should display list of customers', () => {
         ReactDOM.render(<CustomerSelect />, container);
         const customerElements = container.querySelectorAll('.customer-select select option');
-        expect( customerElements.length ).toBe(4);
+        expect( customerElements.length ).toBe(5);
     });
 
     it('should call onSelect with current customer', () => {
