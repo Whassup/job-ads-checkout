@@ -173,6 +173,45 @@ describe('CheckoutCartModel', () => {
                     expect(cart.getBaseTotal()).toBe(expectedTotal);
                 })
             });
+
+            describe('getOptions', () => {
+                it('should return current options object', () => {
+                    const priceRules = [{
+                        id: 2,
+                        name: 'test2',
+                        priceFunction: () => 0,
+                        productIds: []
+                    }];
+
+                    cart = new CheckoutCartModel({ priceRules });
+
+                    expect(cart.getOptions()).toEqual({ priceRules })
+                });
+            });
+
+            describe('setOptions', () => {
+                it('should extend current options object', () => {
+                    cart = new CheckoutCartModel({ 
+                        priceRules: [{
+                            id: 1,
+                            name: 'test',
+                            priceFunction: () => 0,
+                            productIds: []
+                        }]
+                    });
+
+                    const priceRules = [{
+                        id: 2,
+                        name: 'test2',
+                        priceFunction: () => 0,
+                        productIds: []
+                    }];
+
+                    cart.setOptions({ priceRules });
+
+                    expect(cart.getOptions()).toEqual({ priceRules })
+                })
+            });
         });
         
     });

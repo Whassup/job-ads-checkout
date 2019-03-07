@@ -1,10 +1,34 @@
+import { extend, clone } from 'lodash';
+
+import { CheckoutCartOptions } from './CheckoutCartOptionsModel';
 import { CheckoutItemModel } from './CheckoutItemModel';
 import ProductModel from './ProductModel';
 
 export class CheckoutCartModel {
-    
     items: Map<number, CheckoutItemModel> = new Map();
-    
+    private options: CheckoutCartOptions = {
+        priceRules: []
+    };
+
+    constructor(options: Partial<CheckoutCartOptions> = {}) {
+        this.setOptions(options);
+    }
+
+    /**
+     * Applies new options to cart
+     * @param options 
+     */
+    setOptions(options: Partial<CheckoutCartOptions> = {}) {
+        this.options = extend(this.options, options);
+    }
+
+    /**
+     * Displays the currently applied options
+     */
+    getOptions() {
+        return clone(this.options);
+    }
+
     /**
      * Add a product to the cart. 
      * Adding the same product to the cart twice will increase the qty by 1
@@ -19,7 +43,7 @@ export class CheckoutCartModel {
             this.items.set(product.id, { product, qty: 1 });
         }
     }
-    
+
     /**
      * Remove a product from the cart
      * Removing  a product from the cart with decrease the qty 1
