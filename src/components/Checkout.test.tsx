@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { act } from 'react-dom/test-utils';
 
-import CustomerApi from '../api/CustomerApi';
 import Checkout from './Checkout';
 
 describe('Checkout', () => {
@@ -80,6 +79,12 @@ describe('Checkout', () => {
             });
             expect(getQty()).toBe(0);
         }
+    });
+
+    it('should display total price', () => {
+        ReactDOM.render(<Checkout />, container);
+        const element = container.querySelector('.checkout-base-total');
+        expect(element).not.toBeNull();
     });
 
 });
