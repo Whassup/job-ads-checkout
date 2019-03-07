@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { CustomerModel } from '../models/CustomerModel';
+import CustomerModel from '../models/CustomerModel';
 import CustomerSelect from './CustomerSelect';
 import Checkout from './Checkout';
 

@@ -1,31 +1,69 @@
 import React, { Component } from 'react'
-import { ProductModel } from '../models/ProductModel';
 import ProductApi from '../api/ProductApi';
+import { CheckoutCartModel } from '../models/CheckoutCartModel';
+import ProductModel from '../models/ProductModel';
 
 type State = {
-    products: ProductModel[]
+    products: ProductModel[],
+    cart: CheckoutCartModel
 }
 
 export class Checkout extends Component {
     state: State = {
-        products: []
+        products: [],
+        cart: new CheckoutCartModel()
     }
 
     componentDidMount() {
-        this.setState({ products: ProductApi.getProducts() });
+        const products = ProductApi.getProducts();
+        this.setState({ products });
     }
 
     renderProducts() {
-        return this.state.products.map(product => (
-            <tr key={product.id} className='checkout-product'>
-                <td data-label="Name">{product.name}</td>
-                <td data-label="Description">{product.description}</td>
-                <td data-label="Offers"></td>
-                <td data-label="QTY">0</td>
-                <td data-label="Price">${product.price}</td>
-            </tr>
-        ));
+        return this.state.products.map( product => {
+            const { qty } = this.state.cart.items.get(product.id) || { qty: 0 };
+            return (
+                <tr key={product.id} className='checkout-product'>
+                    <td data-label="Name">{product.name}</td>
+                    <td data-label="Description">{product.description}</td>
+                    <td data-label="Offers"></td>
+                    <td data-label="QTY" style={{width: '100px'}}>
+                        <div className="mini ui basic buttons">
+                            <span className="ui labeled basic right pointing label qty">
+                                {qty}
+                            </span>
+                            <button className="ui icon button add-qty" onClick={() => this.addItem(product)}>
+                                <i className="small plus icon"></i>
+                            </button>
+                            <button className="ui icon button remove-qty" onClick={() => this.removeItem(product)}>
+                                <i className="small minus icon"></i>
+                            </button>
+                        </div>
+                    </td>
+                    <td data-label="Price">${product.price}</td>
+                </tr>
+            );
+        });
     }
+
+    /**
+     * Add item qty to update cart state
+     * @param product 
+     */
+    addItem(product: ProductModel) {
+        this.state.cart.add(product);
+        this.setState({ cart: this.state.cart });
+    }
+
+    /**
+     * Remove item qty and update cart state
+     * @param product 
+     */
+    removeItem(product: ProductModel) {
+        this.state.cart.remove(product);
+        this.setState({ cart: this.state.cart });
+    }
+
 
     render() {
         return (

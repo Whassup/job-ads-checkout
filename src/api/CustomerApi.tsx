@@ -1,4 +1,4 @@
-import { CustomerModel } from "../models/CustomerModel";
+import CustomerModel from "../models/CustomerModel";
 import customersStub from "./customersStub";
 
 class CustomerApi {

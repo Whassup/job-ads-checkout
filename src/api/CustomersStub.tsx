@@ -1,4 +1,4 @@
-import { CustomerModel } from '../models/CustomerModel';
+import CustomerModel from '../models/CustomerModel';
 
 export default [
     {

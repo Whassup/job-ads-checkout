@@ -1,0 +1,40 @@
+import { CheckoutItemModel } from './CheckoutItemModel';
+import ProductModel from './ProductModel';
+
+export class CheckoutCartModel {
+   
+    items: Map<number, CheckoutItemModel> = new Map();
+
+    /**
+     * Add a product to the cart. 
+     * Adding the same product to the cart twice will increase the qty by 1
+     * @param product 
+     */
+    add(product: ProductModel) {
+        const item = this.items.get(product.id);
+
+        if (item) {
+            item.qty++;
+        } else {
+            this.items.set(product.id, { product, qty: 1 });
+        }
+    }
+
+    /**
+     * Remove a product from the cart
+     * Removing  a product from the cart with decrease the qty 1
+     * If qty is zero product will be removed from cart
+     * @param product 
+     */
+    remove(product: ProductModel) {
+        const item = this.items.get(product.id);
+
+        if (item && item.qty > 1) {
+            item.qty--;
+        } else {
+            this.items.delete(product.id)
+        }
+    } 
+    
+}
+

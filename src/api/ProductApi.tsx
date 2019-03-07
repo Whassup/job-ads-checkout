@@ -1,7 +1,8 @@
 import productsStub from "./productsStub";
+import ProductModel from '../models/ProductModel';
 
 class ProductApi {
-    getProducts(): any {
+    getProducts(): ProductModel[] {
         return productsStub;
     }
 
