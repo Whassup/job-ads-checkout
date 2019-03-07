@@ -64,10 +64,52 @@ export class CheckoutCartModel {
      * Returns total price excluding pricing rules
      */
     getBaseTotal(): number {
-        return Array.from(this.items.values()).reduce((total, item) => {
+        return +(Array.from(this.items.values()).reduce((total, item) => {
             return total + item.product.price * item.qty;
-        }, 0)
+        }, 0)).toFixed(2);
         return 0;
+    }
+
+    /**
+     * Returns price for single unit of product after price rules have been applied
+     * @param product 
+     */
+    getProductFinalPrice(product: ProductModel): number {
+        let item: CheckoutItemModel = this.items.get(product.id)
+         || { product, qty: 0};
+
+        const rules = this.options.priceRules.filter(
+            rule => rule.productIds.find(id => id === product.id)
+        );
+
+        return +(rules.reduce((price, rule) => {
+            const currentItem = clone(item);
+            currentItem.product.price = price;
+            return rule.priceFunction(currentItem);
+        }, product.price)).toFixed(2);
+    }
+
+    /**
+     * Returns price for total quantity of product after price rules have been applied
+     * @param product 
+     */
+    getItemFinalPrice(product: ProductModel): number {
+        const item = this.items.get(product.id);
+
+        if (!item) return 0;
+        return +(this.getProductFinalPrice(product) * item.qty).toFixed(2);
+    }
+
+    /**
+     * Returns price for total quantity of product excluding price rules
+     * @param product 
+     */
+    getItemBasePrice(product: ProductModel): number {
+        const item = this.items.get(product.id);
+
+        if (!item) return 0;
+
+        return +(product.price * item.qty).toFixed(2);
     }
 }
 
