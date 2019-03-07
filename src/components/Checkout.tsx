@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+
 import ProductApi from '../api/ProductApi';
 import { CheckoutCartModel } from '../models/CheckoutCartModel';
 import ProductModel from '../models/ProductModel';
@@ -20,14 +21,14 @@ export class Checkout extends Component {
     }
 
     renderProducts() {
-        return this.state.products.map( product => {
+        return this.state.products.map(product => {
             const { qty } = this.state.cart.items.get(product.id) || { qty: 0 };
             return (
                 <tr key={product.id} className='checkout-product'>
                     <td data-label="Name">{product.name}</td>
                     <td data-label="Description">{product.description}</td>
                     <td data-label="Offers"></td>
-                    <td data-label="QTY" style={{width: '100px'}}>
+                    <td data-label="QTY" style={{ width: '100px' }}>
                         <div className="mini ui basic buttons">
                             <span className="ui labeled basic right pointing label qty">
                                 {qty}
@@ -64,6 +65,19 @@ export class Checkout extends Component {
         this.setState({ cart: this.state.cart });
     }
 
+    renderTotal() {
+        return (
+            <table className="ui definition table checkout-total-table">
+                <tbody>
+                    <tr className='checkout-base-total'>
+                        <td className="right aligned">Base Total</td>
+                        <td data-label="Base Total" className="right aligned">$100</td>
+                    </tr>
+                </tbody>
+            </table>
+        );
+    }
+
 
     render() {
         return (
@@ -79,7 +93,9 @@ export class Checkout extends Component {
                     <tbody>
                         {this.renderProducts()}
                     </tbody>
+
                 </table>
+                {this.renderTotal()}
             </div>
         )
     }
