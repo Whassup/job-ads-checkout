@@ -1,4 +1,4 @@
-import { ProductModel } from '../models/ProductModel';
+import ProductModel from '../models/ProductModel';
 export default [
     {
         id: 1,

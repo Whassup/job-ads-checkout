@@ -1,7 +1,7 @@
 import React, { Component, FormEvent } from 'react';
 
 import CustomerApi from '../api/CustomerApi';
-import { CustomerModel } from '../models/CustomerModel';
+import CustomerModel from '../models/CustomerModel';
 
 type Props = {
     onSelect: (customer: CustomerModel) => void;
