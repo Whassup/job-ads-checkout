@@ -87,4 +87,28 @@ describe('Checkout', () => {
         expect(element).not.toBeNull();
     });
 
+    describe('When prop.priceRules changes', () => {
+        const priceRules = [{
+            id: 1,
+            name: 'test1',
+            priceFunction: () => 0,
+            productIds: []
+        }];
+        let component: Checkout;
+
+        beforeEach(() => {
+            // @ts-ignore - TODO: Determine why typing is incorrect here.
+            component = ReactDOM.render(<Checkout />, container);
+            ReactDOM.render(<Checkout priceRules={priceRules} />, container);
+        })
+
+        it('should update cart with new priceRules on prop change', () => {
+            expect(
+                component.state.cart.getOptions()
+            ).toEqual(
+                { priceRules }
+            );
+        })
+    })
+
 });

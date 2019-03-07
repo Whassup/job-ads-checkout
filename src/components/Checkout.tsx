@@ -3,21 +3,40 @@ import React, { Component } from 'react';
 import ProductApi from '../api/ProductApi';
 import { CheckoutCartModel } from '../models/CheckoutCartModel';
 import ProductModel from '../models/ProductModel';
+import PriceRule from '../models/PricingRuleModel';
+
+type Props = {
+    priceRules: PriceRule[]
+}
 
 type State = {
     products: ProductModel[],
     cart: CheckoutCartModel
 }
 
-export class Checkout extends Component {
+export class Checkout extends Component<Props> {
+    static defaultProps = {
+        priceRules: []
+    }
+
     state: State = {
         products: [],
-        cart: new CheckoutCartModel()
+        cart: new CheckoutCartModel({ priceRules: this.props.priceRules })
     }
 
     componentDidMount() {
         const products = ProductApi.getProducts();
         this.setState({ products });
+    }
+
+    /**
+     * When prop.priceRules changes cart state needs to be updated with new rules.
+     * @param props 
+     * @param state 
+     */
+    static getDerivedStateFromProps(props: Props, { cart }: State) {
+        cart.setOptions({ priceRules: props.priceRules });
+        return { cart };
     }
 
     renderProducts() {
