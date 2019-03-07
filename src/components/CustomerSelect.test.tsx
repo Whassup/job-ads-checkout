@@ -28,7 +28,7 @@ describe('Customer Select', () => {
         expect(element).not.toBeNull();
     });
 
-    it('should displays list of customers', () => {
+    it('should display list of customers', () => {
         ReactDOM.render(<CustomerSelect />, container);
         const customerElements = container.querySelectorAll('.customer-select select option');
         expect( customerElements.length ).toBe(4);
