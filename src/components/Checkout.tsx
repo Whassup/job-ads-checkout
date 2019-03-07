@@ -44,7 +44,7 @@ export class Checkout extends Component<Props> {
         const discountUnitPrice = this.state.cart.getProductFinalPrice(product);
         const totalBase = this.state.cart.getItemBasePrice(product);
         const total = this.state.cart.getItemFinalPrice(product);
-        const formatPriceQty = (unit: number, total: number) => `\$${unit} x ${qty} = \$${total}`;
+        const formatPriceQty = (unit: number, total: number) => `\$${unit.toFixed(2)} x ${qty} = \$${total.toFixed(2)}`;
         const base = formatPriceQty(product.price, totalBase);
         const discount = formatPriceQty(discountUnitPrice, total);
         if (product.price === discountUnitPrice) {
@@ -110,7 +110,21 @@ export class Checkout extends Component<Props> {
                 <tbody>
                     <tr className='checkout-base-total'>
                         <td className="right aligned">Base Total</td>
-                        <td data-label="Base Total" className="right aligned">{this.state.cart.getBaseTotal()}</td>
+                        <td data-label="Base Total" className="right aligned">
+                            ${this.state.cart.getBaseTotal().toFixed(2)}
+                        </td>
+                    </tr>
+                    <tr className='checkout-discount'>
+                        <td className="right aligned">Discount</td>
+                        <td data-label="Discount" className="right aligned">
+                            -${this.state.cart.getDiscountTotal().toFixed(2)}
+                        </td>
+                    </tr>
+                    <tr className='checkout-grand-total'>
+                        <td className="right aligned">Grand total</td>
+                        <td data-label="Grand Total" className="right aligned">
+                            ${this.state.cart.getFinalTotal().toFixed(2)}
+                        </td>
                     </tr>
                 </tbody>
             </table>
