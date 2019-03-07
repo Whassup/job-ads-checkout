@@ -5,7 +5,7 @@ import { act } from 'react-dom/test-utils';
 import CustomerApi from '../api/CustomerApi';
 import CustomerSelect from './CustomerSelect';
 
-describe('Customer Select', () => {
+describe('CustomerSelect', () => {
     let container: HTMLDivElement;
 
     beforeEach(() => {
