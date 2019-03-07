@@ -46,7 +46,6 @@ export class CustomerSelect extends Component<Props> {
     render() {
         return (
             <div className="customer-select">
-                current customer: {this.state.currentCustomer.id}
                 <select
                     className="ui fluid dropdown" 
                     onChange={(e) => this.onCustomerSelect(e.target.value)}

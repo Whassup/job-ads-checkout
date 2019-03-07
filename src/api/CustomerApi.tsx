@@ -1,9 +1,9 @@
 import { CustomerModel } from "../models/CustomerModel";
-import CustomersStub from "./CustomersStub";
+import customersStub from "./customersStub";
 
 class CustomerApi {
     getCustomers(): CustomerModel[] {
-        return CustomersStub;
+        return customersStub;
     }
 
 }
