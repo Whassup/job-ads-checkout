@@ -41,7 +41,7 @@ export default [
                 id: 0,
                 name: '5 for 4',
                 priceFunction: xForY(5, 4),
-                productIds: [3]
+                productIds: [2]
             }
         ]
     }
