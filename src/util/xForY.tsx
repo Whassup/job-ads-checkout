@@ -21,7 +21,7 @@ export default function xForY(amountTotal: number, amountFree: number): PriceRul
             const finalTotalPrice = totalPrice - discountedItemsPrice;
             const unitPrice = finalTotalPrice / item.qty;
 
-            return +(unitPrice).toFixed(2);
+            return +(unitPrice);
         }
         return item.product.price;
     };

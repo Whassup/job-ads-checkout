@@ -41,7 +41,7 @@ describe('Utils', () => {
                 ]
 
                 tests.forEach(([x, y, expected]) => {
-                    expect(xForY(x, y)(item)).toBe(expected);
+                    expect(+xForY(x, y)(item).toFixed(2)).toBe(expected);
                 });
             });
         });

@@ -66,8 +66,25 @@ export class CheckoutCartModel {
     getBaseTotal(): number {
         return +(Array.from(this.items.values()).reduce((total, item) => {
             return total + item.product.price * item.qty;
-        }, 0)).toFixed(2);
+        }, 0));
         return 0;
+    }
+
+    /**
+     * Returns total price including pricing rules
+     */
+    getFinalTotal(): number {
+        return +(Array.from(this.items.values()).reduce((total, item) => {
+            return total + this.getItemFinalPrice(item.product);
+        }, 0));
+        return 0;
+    }
+
+    /**
+     * Returns amount discount received from total
+     */
+    getDiscountTotal(): number {
+        return this.getBaseTotal() - this.getFinalTotal();
     }
 
     /**
@@ -86,7 +103,7 @@ export class CheckoutCartModel {
             const currentItem = clone(item);
             currentItem.product.price = price;
             return rule.priceFunction(currentItem);
-        }, product.price)).toFixed(2);
+        }, product.price));
     }
 
     /**
@@ -97,7 +114,7 @@ export class CheckoutCartModel {
         const item = this.items.get(product.id);
 
         if (!item) return 0;
-        return +(this.getProductFinalPrice(product) * item.qty).toFixed(2);
+        return +(this.getProductFinalPrice(product) * item.qty);
     }
 
     /**
@@ -109,7 +126,7 @@ export class CheckoutCartModel {
 
         if (!item) return 0;
 
-        return +(product.price * item.qty).toFixed(2);
+        return +(product.price * item.qty);
     }
 }
 
