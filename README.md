@@ -14,10 +14,6 @@ The solution provides a basic visualization of cart to interact with.
 Run the project with `npm start` and run the unit tests with `npm run test`
 
 ## Development
-
-The the coding exercise was split into several features branches. With master containing all the merged branches together to deliver the final solution.
-
-## Building planning
 Before begging work I put together a quick build plan identifying the features I would need which were used to complete minimum viable solution. This plan informed the split of feature branches. Each feature branch has been numbered in the order they were completed.
 
 The master branch contains the final solution.
