@@ -7,19 +7,19 @@ This project is technical test that has been completed for SEEK see details of [
 
 The project was created with 'create-react-app'.
 
-The solution provided is Frontend only solution. It utilizes React & TypeScript for implementation and Jest / Jasmine for unit testing.
+The solution provided is a Frontend only solution. It utilizes React & TypeScript for implementation and Jest / Jasmine for unit testing.
 
 The solution provides a basic visualization of cart to interact with.
 
 Run the project with `npm start` and run the unit tests with `npm run test`
 
 ## Development
-Before begging work I put together a quick build plan identifying the features I would need which were used to complete minimum viable solution. This plan informed the split of feature branches. Each feature branch has been numbered in the order they were completed.
+Before begging work I put together a quick build plan identifying the features I would need which were used to complete a minimum viable solution. This plan informed the split of feature branches. Each feature branch has been numbered in the order they were completed.
 
 The master branch contains the final solution.
 
 ## Considerations
-*  I would not advise doing any actual price calculations handling client side for the obvious security issues and problems with JavaScripting natively no being able to represent some decimals numbers with perfect accuracy.
+*  I would not advise doing any actual price calculations client side for the obvious security issues (e.g the end user can manipulate client side scripts) and problems with JavaScript natively not being able to represent some decimals numbers with perfect accuracy.
 
 ## Potential Improvements
 
@@ -31,7 +31,6 @@ The master branch contains the final solution.
 * Displays the active offers in a offers table column.
 * Remove usages of inline styles in favor of css files and classNames.
  
-
 ## Application Details
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
